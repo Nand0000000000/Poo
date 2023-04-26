@@ -1,4 +1,4 @@
-package br.gov.cesarschool.poo.fidelidade.cartao.dao;
+package br.gov.cesarschool.poo.fidelidade.cliente.dao;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,32 +6,31 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import br.gov.cesarschool.poo.fidelidade.cartao.entidade.CartaoFidelidade;
+import br.gov.cesarschool.poo.fidelidade.cliente.entidade.Cliente;
 
-public class CartaoFidelidadeDAO {
+public class ClienteDAO {
 
-
-	private static final String DIR_BASE = ".\\fidelidade\\cartao";  
+	private static final String DIR_BASE = ".\\fidelidade\\cliente";  
 	private static final String EXT = ".dat";
-	public CartaoFidelidadeDAO() {
+	public ClienteDAO() {
 		File diretorio = new File(DIR_BASE);
 		if (!diretorio.exists()) {
-			diretorio.mkdir();			
+			diretorio.mkdir();
 		}
 	}
-	private File getArquivo(long numero) {
-		String nomeArq = DIR_BASE + numero + EXT;
+	private File getArquivo(String cpf) {
+		String nomeArq = DIR_BASE + cpf + EXT;
 		return new File(nomeArq);		
 	}
-	private void incluirAux(CartaoFidelidade cartao, File arq) {
+	private void incluirAux(Cliente cliente, File arq) {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		try {
 			fos = new FileOutputStream(arq);
 			oos = new ObjectOutputStream(fos);
-			oos.writeObject(cartao);
+			oos.writeObject(cliente);
 		} catch (Exception e) {
-			throw new RuntimeException("Erro ao incluir conta");
+			throw new RuntimeException("Erro ao incluir correntista");
 		} finally {
 			try {
 				oos.close();
@@ -41,34 +40,27 @@ public class CartaoFidelidadeDAO {
 			} catch (Exception e) {}			
 		} 		
 	}
-	public boolean incluir(CartaoFidelidade cartao) {
-		File arq = getArquivo(cartao.getNumero());
+	public boolean incluir(Cliente cliente) {
+		File arq = getArquivo(cliente.getCpf());
 		if (arq.exists()) {
 			return false; 
 		}
-		incluirAux(cartao, arq);
+		incluirAux(cliente, arq);
 		return true; 
 	}
-	public boolean alterar(CartaoFidelidade cartao) {
-		File arq = getArquivo(cartao.getNumero());
+	public boolean alterar(Cliente cliente) {
+		File arq = getArquivo(cliente.getCpf());
 		if (!arq.exists()) {
 			return false; 
 		}		
 		if (!arq.delete()) {
 			return false;
 		}
-		incluirAux(cartao, arq);
+		incluirAux(cliente, arq);
 		return true;
 	}
-	public boolean excluir(long numero) {
-		File arq = getArquivo(numero);
-		if (!arq.exists()) {
-			return false; 
-		}				
-		return arq.delete();
-	}
-	public CartaoFidelidade buscar(long numero) {
-		File arq = getArquivo(numero);
+	public Cliente buscar(String cpf) {
+		File arq = getArquivo(cpf);
 		if (!arq.exists()) {
 			return null; 
 		}				
@@ -77,9 +69,9 @@ public class CartaoFidelidadeDAO {
 		try {
 			fis = new FileInputStream(arq);
 			ois = new ObjectInputStream(fis);
-			return (CartaoFidelidade)ois.readObject(); 
+			return (Cliente)ois.readObject(); 
 		} catch (Exception e) {
-			throw new RuntimeException("Erro ao ler conta");
+			throw new RuntimeException("Erro ao ler correntista");
 		} finally {
 			try {
 				ois.close(); 
