@@ -29,12 +29,12 @@ public class CartaoFidelidadeMediator {
 		this.repositorioLancamento = new LancamentoExtratoDAO();
 	}
 	
-	public static CartaoFidelidadeMediator getInstancia() {
-        if (instancia == null){
-            instancia = new CartaoFidelidadeMediator();
-        }
-        return instancia;
-    }
+	public static synchronized CartaoFidelidadeMediator getInstancia() {
+	    if (instancia == null) {
+	        instancia = new CartaoFidelidadeMediator();
+	    }
+	    return instancia;
+	}
 
 	
 
