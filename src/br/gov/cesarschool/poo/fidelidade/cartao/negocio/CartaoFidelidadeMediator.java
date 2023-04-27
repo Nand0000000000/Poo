@@ -1,11 +1,8 @@
 package br.gov.cesarschool.poo.fidelidade.cartao.negocio;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
 import br.gov.cesarschool.poo.fidelidade.cartao.dao.CartaoFidelidadeDAO;
 import br.gov.cesarschool.poo.fidelidade.cartao.dao.LancamentoExtratoDAO;
 import br.gov.cesarschool.poo.fidelidade.cartao.entidade.CartaoFidelidade;
@@ -29,12 +26,12 @@ public class CartaoFidelidadeMediator {
 		this.repositorioLancamento = new LancamentoExtratoDAO();
 	}
 	
-	public static CartaoFidelidadeMediator getInstancia() {
-        if (instancia == null){
-            instancia = new CartaoFidelidadeMediator();
-        }
-        return instancia;
-    }
+	public static synchronized CartaoFidelidadeMediator getInstancia() {
+	    if (instancia == null) {
+	        instancia = new CartaoFidelidadeMediator();
+	    }
+	    return instancia;
+	}
 
 	
 
