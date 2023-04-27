@@ -23,7 +23,6 @@ public class CartaoFidelidadeMediator {
 	private CartaoFidelidadeDAO repositorioCartao;
 	private LancamentoExtratoDAO repositorioLancamento;
 	
-	
 
 	public CartaoFidelidadeMediator() {
 		this.repositorioCartao = new CartaoFidelidadeDAO();
